@@ -5,14 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections;
 
-
 namespace ex1
 {
     class Program
     {
         static void Main(string[] args)
         {
-
+            
             FunctionsContainer funcList = new FunctionsContainer();     // Creating the mission conatiner
             funcList["Double"] = val => val * 2;                    // Double the Value
             funcList["Triple"] = val => val * 3;                    // Triple the Value
@@ -22,6 +21,7 @@ namespace ex1
 
             PrintAvailableFunctions(funcList);
 
+            
             // This handler will output the screen every mission that was activated and it's value
             EventHandler<double> LogHandler = (sender, val) =>
             {
@@ -49,10 +49,11 @@ namespace ex1
                 Console.WriteLine("----------------------------------------");
             };
 
+            
             ComposedMission mission1 = new ComposedMission("mission1")
                 .Add(funcList["Square"])
                 .Add(funcList["Sqrt"]);
-
+            
             ComposedMission mission2 = new ComposedMission("mission2")
                 .Add(funcList["Triple"])
                 .Add(funcList["Plus2"])
@@ -67,6 +68,7 @@ namespace ex1
 
             PrintAvailableFunctions(funcList);
 
+            
             funcList["Stam"] = val => val + 100;
             SingleMission mission5 = new SingleMission(funcList["Stam"], "mission5");
 
@@ -77,17 +79,32 @@ namespace ex1
                 m.OnCalculate += LogHandler;
                 m.OnCalculate += SqrtHandler;
             }
-
+            
             missionList.Add(mission2);
             missionList.Add(mission1);
             missionList.Add(mission3);
             missionList.Add(mission5);
 
             RunMissions(missionList, 100);
-            RunMissions(missionList, 2);
+            //RunMissions(missionList, 2);
 
             PrintAvailableFunctions(funcList);
+            
+        }
 
+        private static void RunMissions(List<IMission> missionList, int v)
+        {
+            for (int i = 0; i < missionList.Count; i++)
+            {
+                double temp = v;
+                missionList[i].Calculate(temp);
+            }
+
+        }
+
+        private static void PrintAvailableFunctions(FunctionsContainer funcList)
+        {
+            funcList.PrintDict();
         }
     }
 }
