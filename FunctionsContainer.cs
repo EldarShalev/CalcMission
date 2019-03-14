@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
+    // Public delegate, one global to use for all namesapce ex1
     public delegate double singleDeg(double d);
     class FunctionsContainer
     {
@@ -35,19 +36,10 @@ namespace ex1
                 dict[name] = value;
             }
         }
-        
-
-        public void PrintDict()
-        {
-            Console.WriteLine("All Availble Functions");
-            foreach (KeyValuePair<string, singleDeg> kvp in this.dict)
-            {
-                Console.WriteLine(kvp.Key);
-            }
-            Console.WriteLine("#######################");
-
-        }
-
+       
+        /**
+         * This function returns list of all mission from the dictionary
+         */
         public List<string> getAllMissions()
         {
             List<string> lst = new List<string>();
