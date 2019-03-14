@@ -9,24 +9,25 @@ namespace ex1
     class SingleMission : IMission
     {
         // Members
-
+        
         private string name1;
-        Delegate singleDeg;
-        public SingleMission(Delegate func, string name)
+        private singleDeg single;
+        public SingleMission(singleDeg func, string name)
         {
-            this.singleDeg = func;
+            single = new singleDeg(func);
             this.name1 = name;
         }
 
         public string Name =>  this.name1;
 
-        public string Type => throw new NotImplementedException();
+        public string Type => "Single";
 
         public event EventHandler<double> OnCalculate;
 
-        public double Calculate(double value)
+        public double Calculate(double value1)
         {
-            
+            OnCalculate?.Invoke(this, single(value1));
+            return single(value1);
         }
         
         

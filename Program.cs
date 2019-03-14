@@ -21,7 +21,7 @@ namespace ex1
 
             PrintAvailableFunctions(funcList);
 
-            
+
             // This handler will output the screen every mission that was activated and it's value
             EventHandler<double> LogHandler = (sender, val) =>
             {
@@ -32,7 +32,7 @@ namespace ex1
                     Console.WriteLine($"Mission of Type: {mission.Type} with the Name {mission.Name} returned {val}");
                 }
             };
-
+            
             EventHandler<double> SqrtHandler = (sender, val) =>
             {
                 // This function will Create a sqrt mission and will continue to sqrt until a number less than 2
@@ -49,7 +49,8 @@ namespace ex1
                 Console.WriteLine("----------------------------------------");
             };
 
-            
+
+
             ComposedMission mission1 = new ComposedMission("mission1")
                 .Add(funcList["Square"])
                 .Add(funcList["Sqrt"]);
@@ -63,7 +64,7 @@ namespace ex1
 
             ComposedMission mission4 = new ComposedMission("mission4")
                 .Add(funcList["Triple"])
-                .Add(funcList["Stam"])              // Notice that this function does not exist and still it works
+                .Add(funcList["Stam"]) // Notice that this function does not exist and still it works
                 .Add(funcList["Plus2"]);
 
             PrintAvailableFunctions(funcList);
@@ -86,25 +87,31 @@ namespace ex1
             missionList.Add(mission5);
 
             RunMissions(missionList, 100);
-            //RunMissions(missionList, 2);
+            RunMissions(missionList, 2);
 
             PrintAvailableFunctions(funcList);
             
         }
 
-        private static void RunMissions(List<IMission> missionList, int v)
+        public static void RunMissions(IList<IMission> missions, double val)
         {
-            for (int i = 0; i < missionList.Count; i++)
+            foreach (var m in missions)
             {
-                double temp = v;
-                missionList[i].Calculate(temp);
+                Console.WriteLine($"{m.Name}({val}) = {m.Calculate(val)}\n");
             }
-
         }
 
-        private static void PrintAvailableFunctions(FunctionsContainer funcList)
+        
+        public static void PrintAvailableFunctions(FunctionsContainer container)
         {
-            funcList.PrintDict();
+            var fuctionListNames = container.getAllMissions();
+            Console.WriteLine("All Available Functions:");
+            foreach (var funcName in fuctionListNames)
+            {
+                Console.WriteLine(funcName);
+            }
+            Console.WriteLine("####################################\n");
         }
+        
     }
 }

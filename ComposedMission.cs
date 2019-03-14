@@ -9,23 +9,30 @@ namespace ex1
     class ComposedMission : IMission
     {
         private string name1;
-        private List<Delegate> listOfDelegates=new List<Delegate>();
+        private List<singleDeg> listOfDelegates=new List<singleDeg>();
+        // event handler 
         public ComposedMission(string name)
         {
             this.name1 = name;
         }
         public string Name => this.name1;
 
-        public string Type => throw new NotImplementedException();
+        public string Type => "Composed";
 
-        public event EventHandler<double> OnCalculate;
+        public event EventHandler<double> OnCalculate;//all calculate.invoke (this,result) invoke
 
-        public double Calculate(double value)
+        public double Calculate(double value1)
         {
-            throw new NotImplementedException();
+            double result = value1; 
+            for (int i = 0; i < listOfDelegates.Count; i++)
+            {
+                result =listOfDelegates[i].Invoke(result);
+            }
+            OnCalculate?.Invoke(this, result);
+            return result;
         }
 
-        public ComposedMission Add(Delegate d)
+        public ComposedMission Add(singleDeg d)
         {
             this.listOfDelegates.Add(d);
             return this;

@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace ex1
 {
+    public delegate double singleDeg(double d);
     class FunctionsContainer
     {
-        // Creating CalcDelegate
-        public delegate double CalcDelegate(int x);
-
+       
+        // Members 
         // Creating dictionary to map between name to function
-        private Dictionary<string, CalcDelegate> dict = new Dictionary<string, CalcDelegate>();
+        private Dictionary<string, singleDeg> dict = new Dictionary<string, singleDeg>();
 
         // Using indexer for overloading square brackets
-        public CalcDelegate this [string name]
+        public singleDeg this [string name]
         {
             get
             {
@@ -32,10 +32,7 @@ namespace ex1
             }
             set
             {
-                if (!dict.ContainsKey(name))
-                {
-                    dict[name] = value;
-                }
+                dict[name] = value;
             }
         }
         
@@ -43,11 +40,22 @@ namespace ex1
         public void PrintDict()
         {
             Console.WriteLine("All Availble Functions");
-            foreach (KeyValuePair<string, CalcDelegate> kvp in this.dict)
+            foreach (KeyValuePair<string, singleDeg> kvp in this.dict)
             {
                 Console.WriteLine(kvp.Key);
             }
             Console.WriteLine("#######################");
+
+        }
+
+        public List<string> getAllMissions()
+        {
+            List<string> lst = new List<string>();
+            foreach (KeyValuePair<string, singleDeg> kvp in this.dict)
+            {
+                lst.Add(kvp.Key);
+            }
+            return lst;
 
         }
     }
